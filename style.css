@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap");
+
+:root {
+  --card-size: 120px;
+}
+
+body {
+  background: #85adb1;
+  font-family: "Source Serif Pro", serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222;
+  overflow: hidden;
+}
+
+#successPopup {
+  background-color: #efefef;
+  border: 2px solid #dedede;
+  border-radius: 16px;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  box-shadow: 0 6px 8px #33333377;
+}
+
+#successPopup p {
+  padding: 0.3em 1em;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#tryCount {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #ccc;
+  background-color: #fff;
+  width: 2em;
+  height: 2em;
+  border-radius: 100%;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#tryCount:hover {
+  transform: scale(1.2);
+}
+
+#cardsContainer {
+  display: grid;
+  width: 99%;
+  max-width: 800px;
+  justify-content: center;
+  grid-template-columns: repeat(3, var(--card-size));
+  gap: 6px;
+  place-items: center;
+  user-select: none;
+  opacity: 0;
+}
+
+.card {
+  position: relative;
+  width: var(--card-size);
+  height: var(--card-size);
+  perspective: 500px;
+  cursor: pointer;
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.flipped {
+  transform: rotateY(180deg);
+  transition: transform 0.5s;
+}
+
+.front,
+.back {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  color: #03446a;
+  text-align: center;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  backface-visibility: hidden;
+}
+
+.front {
+  background-color: #457b9d;
+  background: url("https://www.fabricsandpapers.com/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/d/a/darw212561_zoom.jpg")
+    no-repeat center center/cover;
+}
+
+.back {
+  background: #03446a;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/** Animations **/
+
+.anim-rotate {
+  animation: rotate 0.3s forwards;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.anim-success {
+  animation: success 0.5s forwards;
+}
+
+@keyframes success {
+  to {
+    transform: rotateY(180deg) scale(0.8);
+  }
+}
+
+.anim-appear {
+  animation: appear 1s forwards;
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
+
+/** Media queries **/
+@media (min-width: 480px) {
+  :root {
+    --card-size: 25vmin;
+  }
+
+  #cardsContainer {
+    grid-template-columns: repeat(4, var(--card-size));
+    gap: 16px;
+  }
+}
