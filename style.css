@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 :root {
   --card-size: 120px;
@@ -6,53 +12,48 @@
 
 body {
   background: #85adb1;
-  font-family: "Source Serif Pro", serif;
+  /* font-family: "Atkinson", sans-serif; */
+  font-family: "Merriweather", serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #222;
+  color: rgb(7, 44, 79);
   overflow: hidden;
 }
 
-#successPopup {
-  background-color: #efefef;
-  border: 2px solid #dedede;
-  border-radius: 16px;
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  transition: all 0.3s ease-out;
-  box-shadow: 0 6px 8px #33333377;
+#game-header {
+  display: flex;
+  background-color: #222;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 40px;
+  box-shadow: 0 3px 8px #11111155;
+  overflow: hidden;
+  align-items: baseline;
 }
 
-#successPopup p {
-  padding: 0.3em 1em;
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
+#game-header p {
+  padding: 16px;
+  font-size: 1.25rem;
 }
 
 #tryCount {
+  color: #fff;
+  width: 4em;
   text-align: center;
-  font-size: 1.5rem;
   font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 3px solid #ccc;
-  background-color: #fff;
-  width: 2em;
-  height: 2em;
-  border-radius: 100%;
-  user-select: none;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
-#tryCount:hover {
-  transform: scale(1.2);
+#successMessage {
+  flex: 1;
+  background-color: #faf9f9;
+  display: flex;
+  align-items: baseline;
+}
+
+#successMessage p {
+  transform: translateY(-100%);
 }
 
 #cardsContainer {
@@ -125,13 +126,21 @@ body {
 
 /** Animations **/
 
-.anim-rotate {
-  animation: rotate 0.3s forwards;
+.anim-trycount {
+  animation: trycount 0.3s forwards ease-out;
 }
 
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
+@keyframes trycount {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(-100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: unset;
   }
 }
 
@@ -142,6 +151,25 @@ body {
 @keyframes success {
   to {
     transform: rotateY(180deg) scale(0.8);
+  }
+}
+
+.anim-name {
+  animation: name 2s forwards ease-in-out;
+}
+
+@keyframes name {
+  10% {
+    transform: unset;
+  }
+  89% {
+    transform: unset;
+  }
+  90% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(100%);
   }
 }
 
@@ -159,6 +187,10 @@ body {
 @media (min-width: 480px) {
   :root {
     --card-size: 25vmin;
+  }
+
+  #successMessage {
+    flex: 1;
   }
 
   #cardsContainer {

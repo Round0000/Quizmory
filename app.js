@@ -1,7 +1,9 @@
 const uiCardsContainer = document.getElementById("cardsContainer");
-let flippedCount = 0;
 const uiTryCount = document.getElementById("tryCount");
+const uiName = document.querySelector("#successMessage p");
+const uiSuccessMessage = uiName.parentElement;
 let tryCount = 0;
+let flippedCount = 0;
 let totalPairs = 6;
 let foundPairs = 0;
 
@@ -18,12 +20,12 @@ uiCardsContainer.addEventListener("click", (e) => {
   if (flippedCount === 2) {
     flippedCount = 0;
     tryCount++;
-    uiTryCount.classList.add("anim-rotate");
+    uiTryCount.classList.add("anim-trycount");
     uiTryCount.innerText = tryCount;
     uiCardsContainer.style.pointerEvents = "none";
 
     setTimeout(function () {
-      uiTryCount.classList.remove("anim-rotate");
+      uiTryCount.classList.remove("anim-trycount");
       uiCardsContainer.style.pointerEvents = "auto";
       const flippedCards = Array.from(
         document.querySelectorAll(".flipped:not(.found)")
@@ -48,7 +50,7 @@ function isCorrect(cards) {
   ) {
     cards.forEach((card) => card.classList.add("found", "anim-success"));
     foundPairs++;
-    successPopup(cards[0].parentElement.dataset.name);
+    successMessage(cards[0].parentElement.dataset.name);
     console.log("right pair");
     isGameWon(6);
   } else {
@@ -111,14 +113,10 @@ uiTryCount.addEventListener("click", () => {
   fillGrid();
 });
 
-function successPopup(name) {
-  const uiSuccessPopup = document.getElementById("successPopup");
-  const uiPopupName = document.querySelector("#successPopup p");
-  uiPopupName.innerText = name;
-  uiSuccessPopup.style.opacity = 1;
-  uiSuccessPopup.style.transform = "translateY(100px)";
+function successMessage(name) {
+  uiName.innerText = name;
+  uiName.classList.add("anim-name");
   setTimeout(() => {
-    uiSuccessPopup.style.opacity = 0;
-    uiSuccessPopup.style.transform = "unset";
+    uiName.classList.remove("anim-name");
   }, 2000);
 }
