@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap");
 
 * {
   box-sizing: border-box;
@@ -12,8 +12,7 @@
 
 body {
   background: #85adb1;
-  /* font-family: "Atkinson", sans-serif; */
-  font-family: "Merriweather", serif;
+  font-family: "Oswald", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +29,8 @@ body {
   box-shadow: 0 3px 8px #11111155;
   overflow: hidden;
   align-items: baseline;
+  transform: translateY(-150%);
+  transition: all 0.5s;
 }
 
 #game-header p {
@@ -54,6 +55,50 @@ body {
 
 #successMessage p {
   transform: translateY(-100%);
+}
+
+#menu {
+  background-color: #00000033;
+  border-radius: 6px;
+  display: flex;
+  padding: 8px;
+}
+
+#menu button {
+  width: 100px;
+  margin: 6px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: rgb(255, 255, 200);
+  box-shadow: 0 2px 3px #22222288;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-weight: 400;
+}
+
+#menu button:disabled {
+  background-color: #ededed;
+  opacity: 0.5;
+}
+
+#menu button > * {
+  margin: 6px;
+  opacity: 0.9;
+}
+
+#menu button:not(:disabled):hover,
+#menu button:focus {
+  background-color: rgb(242, 219, 125);
+  outline: none;
+  box-shadow: 0 1px 1px #22222288;
+  transform: translateY(1px);
 }
 
 #cardsContainer {
@@ -105,8 +150,8 @@ body {
 
 .front {
   background-color: #457b9d;
-  background: url("https://www.fabricsandpapers.com/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/d/a/darw212561_zoom.jpg")
-    no-repeat center center/cover;
+  background-image: url("img/front-01.jpg");
+  background-size: 100%;
 }
 
 .back {
@@ -174,7 +219,7 @@ body {
 }
 
 .anim-appear {
-  animation: appear 1s forwards;
+  animation: appear 0.3s forwards ease-out;
 }
 
 @keyframes appear {
@@ -183,10 +228,24 @@ body {
   }
 }
 
+.anim-disappear {
+  animation: disappear 0.3s forwards ease-out;
+}
+
+@keyframes disappear {
+  to {
+    opacity: 0;
+  }
+}
+
 /** Media queries **/
-@media (min-width: 480px) {
+@media (min-width: 460px) {
   :root {
     --card-size: 25vmin;
+  }
+
+  #game-header {
+    justify-content: center;
   }
 
   #successMessage {

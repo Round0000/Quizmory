@@ -2,6 +2,9 @@ const uiCardsContainer = document.getElementById("cardsContainer");
 const uiTryCount = document.getElementById("tryCount");
 const uiName = document.querySelector("#successMessage p");
 const uiSuccessMessage = uiName.parentElement;
+const uiMenu = document.getElementById("menu");
+const uiBtnStartGame = document.getElementById("startGame");
+const uiGameHeader = document.getElementById("game-header");
 let tryCount = 0;
 let flippedCount = 0;
 let totalPairs = 6;
@@ -51,23 +54,29 @@ function isCorrect(cards) {
     cards.forEach((card) => card.classList.add("found", "anim-success"));
     foundPairs++;
     successMessage(cards[0].parentElement.dataset.name);
-    console.log("right pair");
     isGameWon(6);
-  } else {
-    console.log("wrong pair");
   }
 }
 
 function isGameWon() {
   if (foundPairs === totalPairs) {
+    uiMenu.classList.remove("anim-disappear");
     setTimeout(() => {
-      alert("Bravo !");
-      uiTryCount.innerText = "Go!";
-    }, 300);
+      uiMenu.style.display = "flex";
+      uiMenu.classList.add("anim-appear");
+    }, 500);
   }
 }
 
 function fillGrid() {
+  uiGameHeader.style.transform = "unset";
+  uiMenu.classList.add("anim-disappear");
+  setTimeout(() => {
+    uiMenu.style.display = "none";
+    uiCardsContainer.classList.add("anim-appear");
+  }, 500);
+
+  uiCardsContainer.style.pointerEvents = "none";
   foundPairs = 0;
   uiCardsContainer.innerHTML = "";
 
@@ -79,17 +88,13 @@ function fillGrid() {
 
   selection.forEach((item) => {
     const html = `
-    <div class="card" style="order: ${getRandom(1, 12)}" data-pair="${
-      item.id
-    }" data-name="${item.name}">
+    <div class="card" data-pair="${item.id}" data-name="${item.name}">
       <div class="content">
         <div class="front"></div>
         <div class="back"><img src="${item.face1.content}" alt=""></div>
       </div>
     </div>
-    <div class="card" style="order: ${getRandom(1, 12)}" data-pair="${
-      item.id
-    }" data-name="${item.name}">
+    <div class="card" data-pair="${item.id}" data-name="${item.name}">
       <div class="content">
         <div class="front"></div>
         <div class="back"><img src="${item.face2.content}" alt=""></div>
@@ -100,18 +105,14 @@ function fillGrid() {
     uiCardsContainer.innerHTML += html;
   });
 
-  setTimeout(() => {
-    uiCardsContainer.classList.add("anim-appear");
-  }, 300);
-}
+  document.querySelectorAll(".card").forEach((card, i) => {
+    card.style.order = `${getRandom(1, 12)}`;
 
-uiTryCount.addEventListener("click", () => {
-  tryCount = 0;
-  uiTryCount.innerText = tryCount;
-  uiTryCount.classList.add("anim-morph");
-  uiCardsContainer.classList.remove("anim-appear");
-  fillGrid();
-});
+    setTimeout(() => {
+      uiCardsContainer.style.pointerEvents = "auto";
+    }, 300);
+  });
+}
 
 function successMessage(name) {
   uiName.innerText = name;
@@ -120,3 +121,11 @@ function successMessage(name) {
     uiName.classList.remove("anim-name");
   }, 2000);
 }
+
+uiBtnStartGame.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  tryCount = 0;
+  uiTryCount.innerText = tryCount;
+  fillGrid();
+});
