@@ -117,6 +117,7 @@ body {
   width: var(--card-size);
   height: var(--card-size);
   perspective: 500px;
+  -webkit-perspective: 500px;
   cursor: pointer;
 }
 
@@ -143,10 +144,12 @@ body {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   transition: transform 1s;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .flipped {
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
   transition: transform 0.5s;
 }
 
@@ -165,6 +168,7 @@ body {
   font-size: 1.5rem;
   border-radius: 5px;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .front {
@@ -239,7 +243,13 @@ body {
 }
 
 /** Media queries **/
-@media (min-width: 460px) {
+@media (min-width: 640px) {
+  :root {
+    --card-size: 24vmin;
+  }
+}
+
+@media (min-width: 860px) {
   :root {
     --card-size: 25vmin;
   }

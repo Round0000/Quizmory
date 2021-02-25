@@ -110,7 +110,9 @@ function gameIsOn() {
       flippedCount = 0;
 
       if (foundPairs === totalPairs) {
-        victory();
+        setTimeout(() => {
+          victory();
+        }, 500);
       }
     }
   });
