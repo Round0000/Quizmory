@@ -82,7 +82,6 @@ body > * {
 
 #reviewList {
   list-style: none;
-  width: 100%;
   background-color: #fff6;
   margin-top: 30px;
   border-radius: 6px;
@@ -207,7 +206,7 @@ body > * {
 
 /**********/
 /* show pairs for debug purpose */
-.card::before {
+/* .card::before {
   content: attr(data-pair);
   position: absolute;
   z-index: 99;
@@ -218,7 +217,7 @@ body > * {
   font-size: 2rem;
   text-align: center;
   outline: 2px solid crimson;
-}
+} */
 /**********/
 
 .content {
@@ -362,6 +361,10 @@ body > * {
   .review-name {
     font-size: 1.5rem;
     margin-top: 0.2em;
+  }
+
+  #cardsContainer {
+    gap: 12px;
   }
 }
 

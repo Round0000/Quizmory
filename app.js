@@ -47,6 +47,8 @@ function initGame() {
   uiMainScreen.style.display = "none";
   uiGameHeader.style.display = "flex";
   uiCardsContainer.style.display = "grid";
+  uiCardsContainer.classList.remove("anim-disappear");
+  uiCardsContainer.classList.add("anim-appear");
 }
 
 // prepare game board
@@ -160,12 +162,18 @@ function victory() {
   if (document.getElementById("reviewList")) {
     document.getElementById("reviewList").remove();
   }
+
+  setTimeout(() => {
+    uiCardsContainer.classList.remove("anim-appear");
+    uiCardsContainer.classList.add("anim-disappear");
+  }, 500);
+
   setTimeout(() => {
     uiGameHeader.style.display = "none";
     uiCardsContainer.style.display = "none";
     uiMainScreen.style.display = "flex";
     uiBtnGameReview.disabled = false;
-  }, 1000);
+  }, 1500);
 }
 
 // previous game review
