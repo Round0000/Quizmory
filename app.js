@@ -157,6 +157,9 @@ function updateUI(name, cards) {
 
 // when game is won
 function victory() {
+  if (document.getElementById("reviewList")) {
+    document.getElementById("reviewList").remove();
+  }
   setTimeout(() => {
     uiGameHeader.style.display = "none";
     uiCardsContainer.style.display = "none";
@@ -169,20 +172,24 @@ function victory() {
 function review(selection) {
   const list = document.createElement("UL");
   list.setAttribute("id", "reviewList");
+
   selection.forEach((item) => {
     const listItem = document.createElement("LI");
     listItem.innerHTML = `
     <div class="review">
-      <a target="_blank" href="https://images.google.com/searchbyimage?image_url=${item.name}"><h2 class="review-name">${item.name}</h2></a>
+      <a target="_blank" href="https://www.google.com/search?as_sitesearch=wikipedia.org&q=${item.name}"><h2 class="review-name">${item.name}</h2></a>
       <div class="review-images">
         <a target="_blank" href="https://www.google.com/searchbyimage?&image_url=${item.face1.content}"><img src="${item.face1.content}" alt=""></a>
         <a target="_blank" href="https://www.google.com/searchbyimage?&image_url=${item.face2.content}"><img src="${item.face2.content}" alt=""></a>
       </div>
     </div>
   `;
+    listItem.classList.add("anim-appear");
     list.append(listItem);
   });
+
   uiMainScreen.append(list);
+  list.classList.add("anim-scale");
 }
 
 // menu interaction
