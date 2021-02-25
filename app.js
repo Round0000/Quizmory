@@ -1,5 +1,7 @@
+const uiMainScreen = document.getElementById("main-screen");
 const uiMenu = document.getElementById("menu");
 const uiBtnStartGame = document.getElementById("startGame");
+const uiBtnGameReview = document.getElementById("gameReview");
 const uiGameHeader = document.getElementById("game-header");
 const uiTryCount = document.getElementById("tryCount");
 const uiName = document.querySelector("#successMessage p");
@@ -11,6 +13,7 @@ let tryCount = 0;
 let flippedCount = 0;
 let totalPairs = 6;
 let foundPairs = 0;
+let reviewSelection = [];
 
 url = "https://api.jsonbin.io/b/6030d5b07c58305d3957836a/latest";
 
@@ -24,7 +27,7 @@ async function getData(dataSrc) {
   });
 }
 
-getData(url);
+getData(url).then(() => (uiBtnStartGame.disabled = false));
 
 // generate random integer
 function getRandom(min, max) {
@@ -41,14 +44,14 @@ function initGame() {
   uiTryCount.innerText = tryCount;
   uiName.innerText = "";
   uiCardsContainer.innerHTML = "";
+  uiMainScreen.style.display = "none";
+  uiGameHeader.style.display = "flex";
+  uiCardsContainer.style.display = "grid";
 }
 
 // prepare game board
 function startGame() {
   initGame();
-  uiMenu.style.display = "none";
-  uiGameHeader.style.display = "flex";
-  uiCardsContainer.style.display = "grid";
   fillGrid();
 }
 
@@ -60,6 +63,7 @@ function fillGrid() {
   }
 
   let selection = shuffledDB.slice(0, 6);
+  reviewSelection = selection;
   selection.forEach((item) => {
     const html = `
     <div class="card" style="order:${getRandom(1, 12)}" data-pair="${
@@ -155,13 +159,30 @@ function updateUI(name, cards) {
 function victory() {
   setTimeout(() => {
     uiGameHeader.style.display = "none";
-  }, 500);
-  setTimeout(() => {
     uiCardsContainer.style.display = "none";
+    uiMainScreen.style.display = "flex";
+    uiBtnGameReview.disabled = false;
   }, 1000);
-  setTimeout(() => {
-    uiMenu.style.display = "flex";
-  }, 1500);
+}
+
+// previous game review
+function review(selection) {
+  const list = document.createElement("UL");
+  list.setAttribute("id", "reviewList");
+  selection.forEach((item) => {
+    const listItem = document.createElement("LI");
+    listItem.innerHTML = `
+    <div class="review">
+      <a target="_blank" href="https://images.google.com/searchbyimage?image_url=${item.name}"><h2 class="review-name">${item.name}</h2></a>
+      <div class="review-images">
+        <a target="_blank" href="https://www.google.com/searchbyimage?&image_url=${item.face1.content}"><img src="${item.face1.content}" alt=""></a>
+        <a target="_blank" href="https://www.google.com/searchbyimage?&image_url=${item.face2.content}"><img src="${item.face2.content}" alt=""></a>
+      </div>
+    </div>
+  `;
+    list.append(listItem);
+  });
+  uiMainScreen.append(list);
 }
 
 // menu interaction
@@ -169,4 +190,11 @@ uiBtnStartGame.addEventListener("click", (e) => {
   e.preventDefault();
 
   startGame();
+});
+
+uiBtnGameReview.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  document.body.style.overflowY = "scroll";
+  review(reviewSelection);
 });
