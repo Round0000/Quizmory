@@ -120,7 +120,9 @@ body {
   cursor: pointer;
 }
 
-.card::before {
+/**********/
+/* show pairs for debug purpose */
+/* .card::before {
   content: attr(data-pair);
   position: absolute;
   z-index: 99;
@@ -131,7 +133,8 @@ body {
   font-size: 2rem;
   text-align: center;
   outline: 2px solid crimson;
-}
+} */
+/**********/
 
 .content {
   position: absolute;
