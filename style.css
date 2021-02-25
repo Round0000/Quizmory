@@ -21,7 +21,7 @@ body {
 }
 
 #game-header {
-  display: flex;
+  display: none;
   background-color: #222;
   width: 100%;
   justify-content: center;
@@ -29,7 +29,6 @@ body {
   box-shadow: 0 3px 8px #11111155;
   overflow: hidden;
   align-items: baseline;
-  transform: translateY(-150%);
   transition: all 0.5s;
 }
 
@@ -43,18 +42,18 @@ body {
   width: 4em;
   text-align: center;
   font-weight: bold;
-  cursor: pointer;
 }
 
 #successMessage {
   flex: 1;
   background-color: #faf9f9;
   display: flex;
-  align-items: baseline;
+  align-self: stretch;
 }
 
 #successMessage p {
-  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.5s;
 }
 
 #menu {
@@ -62,6 +61,7 @@ body {
   border-radius: 6px;
   display: flex;
   padding: 8px;
+  margin-top: 100px;
 }
 
 #menu button {
@@ -102,7 +102,7 @@ body {
 }
 
 #cardsContainer {
-  display: grid;
+  display: none;
   width: 99%;
   max-width: 800px;
   justify-content: center;
@@ -110,7 +110,6 @@ body {
   gap: 6px;
   place-items: center;
   user-select: none;
-  opacity: 0;
 }
 
 .card {
@@ -119,6 +118,19 @@ body {
   height: var(--card-size);
   perspective: 500px;
   cursor: pointer;
+}
+
+.card::before {
+  content: attr(data-pair);
+  position: absolute;
+  z-index: 99;
+  width: 3ch;
+  top: -5px;
+  left: -5px;
+  background-color: white;
+  font-size: 2rem;
+  text-align: center;
+  outline: 2px solid crimson;
 }
 
 .content {
@@ -133,6 +145,10 @@ body {
 .flipped {
   transform: rotateY(180deg);
   transition: transform 0.5s;
+}
+
+.found {
+  cursor: auto;
 }
 
 .front,
@@ -150,7 +166,7 @@ body {
 
 .front {
   background-color: #457b9d;
-  background-image: url("img/front-01.jpg");
+  background-image: url("https://quizmory.netlify.app/img/front-01.jpg");
   background-size: 100%;
 }
 
@@ -196,25 +212,6 @@ body {
 @keyframes success {
   to {
     transform: rotateY(180deg) scale(0.8);
-  }
-}
-
-.anim-name {
-  animation: name 2s forwards ease-in-out;
-}
-
-@keyframes name {
-  10% {
-    transform: unset;
-  }
-  89% {
-    transform: unset;
-  }
-  90% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(100%);
   }
 }
 
