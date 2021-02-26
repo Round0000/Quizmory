@@ -34,6 +34,8 @@ const categories = [
 
 uiCategories.addEventListener("click", (e) => {
   if (e.target.classList.contains("category")) {
+    db = [];
+    uiBtnStartGame.disabled = true;
     const i = categories.findIndex((x) => x.id === e.target.dataset.id);
 
     getData(categories[i].url).then(() => (uiBtnStartGame.disabled = false));
