@@ -10,6 +10,7 @@ const uiSuccessMessage = uiName.parentElement;
 const uiCardsContainer = document.getElementById("cardsContainer");
 const uiSettings = document.getElementById("settings");
 const uiBody = document.querySelector("body");
+const uiCategories = document.getElementById("categories");
 
 let db = [];
 let tryCount = 0;
@@ -20,7 +21,24 @@ let reviewSelection = [];
 
 uiBody.style.backgroundColor = localStorage.getItem("backgroundClr");
 
-url = "https://api.jsonbin.io/b/6030d5b07c58305d3957836a/latest";
+const categories = [
+  {
+    id: "dbPaintings01",
+    url: "https://api.jsonbin.io/b/6030d5b07c58305d3957836a/latest",
+  },
+  {
+    id: "dbAlbums01",
+    url: "https://api.jsonbin.io/b/6038fb920866664b1083d3b5/latest",
+  },
+];
+
+uiCategories.addEventListener("click", (e) => {
+  if (e.target.classList.contains("category")) {
+    const i = categories.findIndex((x) => x.id === e.target.dataset.id);
+
+    getData(categories[i].url).then(() => (uiBtnStartGame.disabled = false));
+  }
+});
 
 async function getData(dataSrc) {
   // read JSON
@@ -31,8 +49,6 @@ async function getData(dataSrc) {
     db.push(item);
   });
 }
-
-getData(url).then(() => (uiBtnStartGame.disabled = false));
 
 // generate random integer
 function getRandom(min, max) {
