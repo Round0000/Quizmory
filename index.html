@@ -12,7 +12,7 @@
     <title>Quizmory</title>
   </head>
   <body>
-    <header id="game-header">
+    <header id="game-header" class="display-none">
       <p id="tryCount">0</p>
       <div id="successMessage">
         <p></p>
@@ -20,12 +20,12 @@
     </header>
 
     <div id="main-screen">
-      <img class="logo" src="android-chrome-192x192.png" alt="" />
+      <img class="logo" src="img/logo.png" alt="" />
       <h1>Quizmory</h1>
       <p>A memory game? A quiz? Both!</p>
 
       <div id="menu">
-        <button id="openSettings" disabled>
+        <button id="openSettings">
           <svg
             fill="none"
             viewBox="0 0 24 24"
@@ -79,9 +79,90 @@
           Play
         </button>
       </div>
+
+      <section id="settings" class="display-none">
+        <div class="settings-section">
+          <h2 class="settings-title">Card patterns</h2>
+          <div class="settings-card-patterns">
+            <img
+              data-id="01"
+              class="setting-pattern selected"
+              src="img/front-01.jpg"
+              alt=""
+            />
+            <img
+              data-id="02"
+              class="setting-pattern"
+              src="img/front-02.jpg"
+              alt=""
+            />
+            <img
+              data-id="03"
+              class="setting-pattern"
+              src="img/front-03.jpg"
+              alt=""
+            />
+            <img
+              data-id="04"
+              class="setting-pattern"
+              src="img/front-04.jpg"
+              alt=""
+            />
+            <img
+              data-id="05"
+              class="setting-pattern"
+              src="img/front-05.jpg"
+              alt=""
+            />
+            <img
+              data-id="06"
+              class="setting-pattern"
+              src="img/front-06.jpg"
+              alt=""
+            />
+            <img
+              data-id="07"
+              class="setting-pattern"
+              src="img/front-07.jpg"
+              alt=""
+            />
+            <img
+              data-id="08"
+              class="setting-pattern"
+              src="img/front-08.jpg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="settings-section">
+          <h2 class="settings-title">Background color</h2>
+          <div class="settings-background-colors">
+            <div
+              data-id="01"
+              style="background-color: #85adb1"
+              class="setting-color selected"
+            ></div>
+            <div
+              data-id="02"
+              style="background-color: #ddbea9"
+              class="setting-color"
+            ></div>
+            <div
+              data-id="04"
+              style="background-color: #79c1da"
+              class="setting-color"
+            ></div>
+            <div
+              data-id="03"
+              style="background-color: #f4acb7"
+              class="setting-color"
+            ></div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <section id="cardsContainer"></section>
+    <section id="cardsContainer" class="display-none"></section>
     <!--  -->
     <script src="app.js"></script>
   </body>

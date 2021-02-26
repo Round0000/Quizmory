@@ -2,11 +2,14 @@ const uiMainScreen = document.getElementById("main-screen");
 const uiMenu = document.getElementById("menu");
 const uiBtnStartGame = document.getElementById("startGame");
 const uiBtnGameReview = document.getElementById("gameReview");
+const uiBtnOpenSettings = document.getElementById("openSettings");
 const uiGameHeader = document.getElementById("game-header");
 const uiTryCount = document.getElementById("tryCount");
 const uiName = document.querySelector("#successMessage p");
 const uiSuccessMessage = uiName.parentElement;
 const uiCardsContainer = document.getElementById("cardsContainer");
+const uiSettings = document.getElementById("settings");
+const uiBody = document.querySelector("body");
 
 let db = [];
 let tryCount = 0;
@@ -14,6 +17,8 @@ let flippedCount = 0;
 let totalPairs = 6;
 let foundPairs = 0;
 let reviewSelection = [];
+
+uiBody.style.backgroundColor = localStorage.getItem("backgroundClr");
 
 url = "https://api.jsonbin.io/b/6030d5b07c58305d3957836a/latest";
 
@@ -44,21 +49,22 @@ function initGame() {
   uiTryCount.innerText = tryCount;
   uiName.innerText = "";
   uiCardsContainer.innerHTML = "";
-  uiMainScreen.style.display = "none";
-  uiGameHeader.style.display = "flex";
-  uiCardsContainer.style.display = "grid";
-  uiCardsContainer.classList.remove("anim-disappear");
-  uiCardsContainer.classList.add("anim-appear");
+
+  transitionOut(uiMainScreen);
+  setTimeout(() => {
+    transitionIn(uiGameHeader);
+  }, 200);
+  transitionIn(uiCardsContainer);
 }
 
 // prepare game board
 function startGame() {
   initGame();
-  fillGrid();
+  fillGrid(localStorage.getItem("backgroundIMG"));
 }
 
 // randomize cards and display them on the page
-function fillGrid() {
+function fillGrid(backgroundIMG) {
   let shuffledDB = db.sort(shuffle);
   function shuffle(a, b) {
     return 0.5 - Math.random();
@@ -66,13 +72,14 @@ function fillGrid() {
 
   let selection = shuffledDB.slice(0, 6);
   reviewSelection = selection;
+
   selection.forEach((item) => {
     const html = `
     <div class="card" style="order:${getRandom(1, 12)}" data-pair="${
       item.id
     }" data-name="${item.name}">
       <div class="content">
-        <div class="front"></div>
+        <div class="front frontbg${backgroundIMG}"></div>
         <div class="back"><img src="${item.face1.content}" alt=""></div>
       </div>
     </div>
@@ -80,7 +87,7 @@ function fillGrid() {
       item.id
     }" data-name="${item.name}">
       <div class="content">
-        <div class="front"></div>
+      <div class="front frontbg${backgroundIMG}"></div>
         <div class="back"><img src="${item.face2.content}" alt=""></div>
       </div>
     </div>
@@ -163,17 +170,13 @@ function victory() {
     document.getElementById("reviewList").remove();
   }
 
+  transitionOut(uiCardsContainer);
   setTimeout(() => {
-    uiCardsContainer.classList.remove("anim-appear");
-    uiCardsContainer.classList.add("anim-disappear");
-  }, 500);
+    transitionOut(uiGameHeader);
+    transitionIn(uiMainScreen);
+  }, 200);
 
-  setTimeout(() => {
-    uiGameHeader.style.display = "none";
-    uiCardsContainer.style.display = "none";
-    uiMainScreen.style.display = "flex";
-    uiBtnGameReview.disabled = false;
-  }, 1500);
+  uiBtnGameReview.disabled = false;
 }
 
 // previous game review
@@ -204,12 +207,58 @@ function review(selection) {
 uiBtnStartGame.addEventListener("click", (e) => {
   e.preventDefault();
 
+  uiSettings.classList.add("display-none");
+
   startGame();
 });
 
 uiBtnGameReview.addEventListener("click", (e) => {
   e.preventDefault();
 
-  document.body.style.overflowY = "scroll";
   review(reviewSelection);
 });
+
+uiBtnOpenSettings.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  uiSettings.classList.toggle("display-none");
+});
+
+uiSettings.addEventListener("click", (e) => {
+  if (e.target.classList.contains("setting-pattern")) {
+    document
+      .querySelectorAll(".settings-card-patterns .selected")
+      .forEach((item) => {
+        item.classList.remove("selected");
+      });
+    e.target.classList.add("selected");
+    localStorage.setItem("backgroundIMG", e.target.dataset.id);
+  }
+
+  if (e.target.classList.contains("setting-color")) {
+    document
+      .querySelectorAll(".settings-background-colors .selected")
+      .forEach((item) => {
+        item.classList.remove("selected");
+      });
+    e.target.classList.add("selected");
+    localStorage.setItem("backgroundClr", e.target.style.backgroundColor);
+    uiBody.style.backgroundColor = e.target.style.backgroundColor;
+  }
+});
+
+function transitionOut(item) {
+  item.classList.remove("anim-appear");
+  item.classList.add("anim-disappear");
+  setTimeout(() => {
+    item.classList.add("display-none");
+  }, 200);
+}
+
+function transitionIn(item) {
+  setTimeout(() => {
+    item.classList.remove("display-none");
+    item.classList.remove("anim-disappear");
+    item.classList.add("anim-appear");
+  }, 200);
+}

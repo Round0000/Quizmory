@@ -11,21 +11,26 @@
 }
 
 body {
-  background: #85adb1;
+  background-color: #85adb1;
   font-family: "Oswald", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: rgb(7, 44, 79);
-  overflow: hidden;
+  overflow-x: hidden;
+  transition: all 0.6s;
 }
 
 body > * {
   touch-action: manipulation;
 }
 
+.display-none {
+  display: none !important;
+}
+
 #game-header {
-  display: none;
+  display: flex;
   background-color: #222;
   width: 100%;
   justify-content: center;
@@ -67,9 +72,9 @@ body > * {
   align-items: center;
   text-align: center;
   background-color: #fff4;
-  padding: 30px 60px;
+  padding: 4vw;
   margin: 20px auto;
-  border-radius: 4vw;
+  border-radius: 2vw;
   font-size: 1.5rem;
   box-shadow: inset 0 2px 6px #2226;
 }
@@ -80,6 +85,7 @@ body > * {
   margin: 10px;
 }
 
+/* Review */
 #reviewList {
   list-style: none;
   background-color: #fff6;
@@ -88,7 +94,7 @@ body > * {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   transition: all 0.8s;
 }
 
@@ -97,7 +103,7 @@ body > * {
   border: 1px solid #2223;
   border-radius: 6px;
   background-color: #fff5;
-  box-shadow: inset 0 2px 6px #2226;
+  box-shadow: inset 0 1px 4px #2225;
 }
 
 .review a {
@@ -133,9 +139,67 @@ body > * {
   width: 150px;
   height: 150px;
   object-fit: cover;
-  margin: 6px;
+  margin: 10px;
   border-radius: 5px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Settings */
+#settings {
+  margin-top: 40px;
+  background-color: #ddd5;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+  box-shadow: inset 0 1px 4px #2225;
+}
+
+.settings-title {
+  font-weight: 300;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.settings-card-patterns {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 6px;
+}
+
+.settings-card-patterns img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s;
+  border: 4px dashed transparent;
+  padding: 1px;
+  transform: scale(0.8);
+}
+
+#settings .selected {
+  border-color: whitesmoke;
+  transform: scale(1);
+}
+
+.settings-section {
+  margin-bottom: 20px;
+}
+
+.settings-background-colors {
+  display: flex;
+  justify-content: center;
+}
+
+.setting-color {
+  height: calc(50px + 3vmax);
+  flex: 1;
+  max-width: 150px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s;
+  border: 4px dashed transparent;
+  transform: scale(0.8);
 }
 
 #menu {
@@ -185,7 +249,7 @@ body > * {
 }
 
 #cardsContainer {
-  display: none;
+  display: grid;
   width: 99%;
   max-width: 800px;
   justify-content: center;
@@ -255,9 +319,33 @@ body > * {
 }
 
 .front {
-  background-color: #457b9d;
-  background-image: url("img/front-01.jpg");
+  background-color: #daf1ff;
   background-size: 100%;
+}
+
+.frontbg01 {
+  background-image: url("img/front-01.jpg");
+}
+.frontbg02 {
+  background-image: url("img/front-02.jpg");
+}
+.frontbg03 {
+  background-image: url("img/front-03.jpg");
+}
+.frontbg04 {
+  background-image: url("img/front-04.jpg");
+}
+.frontbg05 {
+  background-image: url("img/front-05.jpg");
+}
+.frontbg06 {
+  background-image: url("img/front-06.jpg");
+}
+.frontbg07 {
+  background-image: url("img/front-07.jpg");
+}
+.frontbg08 {
+  background-image: url("img/front-08.jpg");
 }
 
 .back {
@@ -306,7 +394,7 @@ body > * {
 }
 
 .anim-appear {
-  animation: appear 1s forwards ease-out;
+  animation: appear 1s forwards ease-in-out;
   visibility: hidden;
   opacity: 0;
 }
@@ -323,7 +411,7 @@ body > * {
 }
 
 .anim-disappear {
-  animation: disappear 0.3s forwards ease-out;
+  animation: disappear 0.3s forwards ease-in-out;
 }
 
 @keyframes disappear {
@@ -333,7 +421,7 @@ body > * {
 }
 
 .anim-scale {
-  animation: scale 0.5s forwards;
+  animation: scale 0.3s forwards;
   transform: scaleX(0);
 }
 
@@ -386,8 +474,13 @@ body > * {
     justify-content: center;
   }
 
+  #game-header p {
+    font-size: 2rem;
+  }
+
   #successMessage {
     flex: 1;
+    padding-left: 0.8em;
   }
 
   #cardsContainer {
