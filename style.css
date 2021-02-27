@@ -10,6 +10,10 @@
   --card-size: 120px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #85adb1;
   font-family: "Oswald", sans-serif;
@@ -89,7 +93,8 @@ body > * {
 #categories {
   list-style: none;
   margin: 20px;
-  width: 100%;
+  width: max-content;
+  min-width: 360px;
   border: 1px solid #2224;
   border-radius: 6px;
   background-color: #2222;
@@ -100,16 +105,17 @@ body > * {
 }
 
 #categories h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 500;
   color: #222;
   margin-bottom: 6px;
 }
 
-.category {
+#categories label {
   text-align: center;
   background-color: #fff8;
   width: 100%;
+  max-width: 600px;
   margin: 6px;
   padding: 6px;
   font-weight: 300;
@@ -117,31 +123,40 @@ body > * {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
-.category:hover {
-  background-color: #fff;
+#categories input {
+  all: unset;
+  position: absolute;
+  width: 98%;
+  height: 90%;
+  top: -8%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50px;
+}
+
+#categories input:checked {
+  border: 6px solid #fff;
+  background-color: #fff2;
 }
 
 /* Review */
 #reviewList {
   list-style: none;
-  background-color: #fff6;
-  margin-top: 30px;
-  border-radius: 6px;
-  padding: 10px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  transition: all 0.8s;
+  flex-direction: column;
+  align-items: center;
 }
 
 .review {
-  margin: 10px;
+  margin: 6px;
   border: 1px solid #2223;
   border-radius: 6px;
   background-color: #fff5;
-  box-shadow: inset 0 1px 4px #2225;
+  box-shadow: inset 0 1px 4px #2223;
 }
 
 .review a {
@@ -177,25 +192,56 @@ body > * {
   width: 150px;
   height: 150px;
   object-fit: cover;
-  margin: 10px;
+  margin: 6px;
   border-radius: 5px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 /* Settings */
-#settings {
-  margin-top: 40px;
-  background-color: #ddd5;
-  padding: 10px;
+#settings,
+#reviewList {
+  margin: 40px 0 20px;
+  background-color: #edd8;
+  padding: 60px 10px 10px;
   border-radius: 6px;
   width: 100%;
   box-shadow: inset 0 1px 4px #2225;
+  position: relative;
+  overflow: hidden;
+  scroll-margin-top: 20px;
+}
+
+#settings::before,
+#reviewList::before {
+  position: absolute;
+  top: 0;
+  height: 30px;
+  left: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  height: 1.5em;
+  overflow: hidden;
+  padding: 0.3em;
+  color: #eee;
+  background-color: #0005;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 2px solid #2223;
+}
+
+#settings::before {
+  content: "Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings Settings";
+}
+#reviewList::before {
+  content: "Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review Review";
 }
 
 .settings-title {
   font-weight: 300;
   color: #222;
   margin-bottom: 10px;
+  font-size: 1.75rem;
+  padding-top: 0;
 }
 
 .settings-card-patterns {
@@ -306,20 +352,20 @@ body > * {
   cursor: pointer;
 }
 
-/**********/
-/* show pairs for debug purpose */
-/* .card::before {
+/*** show pairs for debug purpose ***/
+.card::before {
   content: attr(data-pair);
   position: absolute;
   z-index: 99;
   width: 3ch;
   top: -5px;
   left: -5px;
-  background-color: white;
+  background-color: oldlace;
   font-size: 2rem;
   text-align: center;
-  outline: 2px solid crimson;
-} */
+  border-radius: 6px;
+  border: 2px solid rgba(220, 20, 60, 0.864);
+}
 /**********/
 
 .content {
@@ -459,13 +505,29 @@ body > * {
 }
 
 .anim-scale {
-  animation: scale 0.3s forwards;
+  animation: scale 0.2s forwards ease-out;
   transform: scaleX(0);
 }
 
 @keyframes scale {
   100% {
     transform: scaleX(1);
+  }
+}
+
+.anim-bump {
+  animation: bump 0.5s forwards ease-in-out;
+}
+
+@keyframes bump {
+  40% {
+    transform: translateY(-5px);
+  }
+  70% {
+    transform: translateY(0);
+  }
+  85% {
+    transform: translateY(-2px);
   }
 }
 
@@ -479,9 +541,14 @@ body > * {
     max-width: 94vw;
   }
 
+  .review {
+    margin: 12px;
+  }
+
   .review-images img {
     width: 200px;
     height: 200px;
+    margin: 12px;
   }
 
   .review-name {

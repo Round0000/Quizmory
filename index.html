@@ -24,11 +24,25 @@
       <h1>Quizmory</h1>
       <p>A memory game? A quiz? Both!</p>
 
-      <ul id="categories">
+      <div id="categories">
         <h2>Select a category</h2>
-        <li data-id="dbPaintings01" class="category">Paintings</li>
-        <li data-id="dbAlbums01" class="category">Jazz Covers</li>
-      </ul>
+        <label
+          ><input
+            type="radio"
+            name="category"
+            data-id="dbPaintings01"
+            class="category"
+          />Paintings</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="category"
+            data-id="dbAlbums01"
+            class="category"
+          />Jazz Covers</label
+        >
+      </div>
 
       <div id="menu">
         <button id="openSettings">
@@ -154,12 +168,12 @@
               class="setting-color"
             ></div>
             <div
-              data-id="04"
+              data-id="03"
               style="background-color: #79c1da"
               class="setting-color"
             ></div>
             <div
-              data-id="03"
+              data-id="04"
               style="background-color: #f4acb7"
               class="setting-color"
             ></div>

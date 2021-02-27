@@ -36,9 +36,16 @@ uiCategories.addEventListener("click", (e) => {
   if (e.target.classList.contains("category")) {
     db = [];
     uiBtnStartGame.disabled = true;
+
     const i = categories.findIndex((x) => x.id === e.target.dataset.id);
 
-    getData(categories[i].url).then(() => (uiBtnStartGame.disabled = false));
+    getData(categories[i].url).then(() => {
+      uiBtnStartGame.disabled = false;
+      uiBtnStartGame.classList.add("anim-bump");
+      setTimeout(() => {
+        uiBtnStartGame.classList.remove("anim-bump");
+      }, 500);
+    });
   }
 });
 
@@ -71,6 +78,9 @@ function initGame() {
   transitionOut(uiMainScreen);
   setTimeout(() => {
     transitionIn(uiGameHeader);
+    if (document.getElementById("reviewList")) {
+      document.getElementById("reviewList").remove();
+    }
   }, 200);
   transitionIn(uiCardsContainer);
 }
@@ -143,7 +153,7 @@ function gameIsOn() {
       if (foundPairs === totalPairs) {
         setTimeout(() => {
           victory();
-        }, 500);
+        }, 1000);
       }
     }
   });
@@ -184,10 +194,6 @@ function updateUI(name, cards) {
 
 // when game is won
 function victory() {
-  if (document.getElementById("reviewList")) {
-    document.getElementById("reviewList").remove();
-  }
-
   transitionOut(uiCardsContainer);
   setTimeout(() => {
     transitionOut(uiGameHeader);
@@ -218,7 +224,7 @@ function review(selection) {
   });
 
   uiMainScreen.append(list);
-  list.classList.add("anim-scale");
+  list.scrollIntoView();
 }
 
 // menu interaction
@@ -233,6 +239,8 @@ uiBtnStartGame.addEventListener("click", (e) => {
 uiBtnGameReview.addEventListener("click", (e) => {
   e.preventDefault();
 
+  uiBtnGameReview.disabled = true;
+
   review(reviewSelection);
 });
 
@@ -240,6 +248,7 @@ uiBtnOpenSettings.addEventListener("click", (e) => {
   e.preventDefault();
 
   uiSettings.classList.toggle("display-none");
+  uiSettings.scrollIntoView();
 });
 
 uiSettings.addEventListener("click", (e) => {
