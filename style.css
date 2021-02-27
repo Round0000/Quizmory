@@ -353,7 +353,7 @@ body > * {
 }
 
 /*** show pairs for debug purpose ***/
-.card::before {
+/* .card::before {
   content: attr(data-pair);
   position: absolute;
   z-index: 99;
@@ -365,7 +365,7 @@ body > * {
   text-align: center;
   border-radius: 6px;
   border: 2px solid rgba(220, 20, 60, 0.864);
-}
+} */
 /**********/
 
 .content {
