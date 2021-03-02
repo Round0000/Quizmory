@@ -217,7 +217,7 @@ function updateUI(name, cards) {
       card.classList.remove("flipped");
     });
     uiCardsContainer.style.pointerEvents = "auto";
-  }, 1000);
+  }, 2000);
 }
 
 // when game is won
