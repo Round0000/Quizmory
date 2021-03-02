@@ -19,7 +19,30 @@ let totalPairs = 6;
 let foundPairs = 0;
 let reviewSelection = [];
 
-uiBody.style.backgroundColor = localStorage.getItem("backgroundClr");
+function retrieveSettings() {
+  const storedImg = localStorage.getItem("backgroundIMG");
+  const storedClr = localStorage.getItem("backgroundClr");
+  uiBody.style.backgroundColor = "#85adb1";
+  if (storedClr) {
+    uiBody.style.backgroundColor = storedClr;
+  }
+
+  document.querySelectorAll(".setting-pattern").forEach((item) => {
+    item.classList.remove("selected");
+    if (item.dataset.id === storedImg) {
+      item.classList.add("selected");
+    }
+  });
+
+  document.querySelectorAll(".setting-color").forEach((item) => {
+    item.classList.remove("selected");
+    if (item.style.backgroundColor === storedClr) {
+      item.classList.add("selected");
+    }
+  });
+}
+
+retrieveSettings();
 
 const categories = [
   {
@@ -74,9 +97,11 @@ function initGame() {
   uiName.innerText = "";
   uiCardsContainer.innerHTML = "";
 
+  document.getElementById("topAnchor").style.display = "none";
   transitionOut(uiMainScreen);
   setTimeout(() => {
-    transitionIn(uiGameHeader);
+    // transitionIn(uiGameHeader);
+    transitionMove(uiGameHeader, "in");
     if (document.getElementById("reviewList")) {
       document.getElementById("reviewList").remove();
     }
@@ -195,8 +220,9 @@ function updateUI(name, cards) {
 function victory() {
   transitionOut(uiCardsContainer);
   setTimeout(() => {
-    transitionOut(uiGameHeader);
+    transitionMove(uiGameHeader, "out");
     transitionIn(uiMainScreen);
+    uiSettings.classList.remove("anim-disappear");
   }, 200);
 
   uiBtnGameReview.disabled = false;
@@ -204,8 +230,10 @@ function victory() {
 
 // previous game review
 function review(selection) {
+  uiBody.style.overflow = "auto";
   const list = document.createElement("UL");
   list.setAttribute("id", "reviewList");
+  document.getElementById("topAnchor").style.display = "block";
 
   selection.forEach((item) => {
     const listItem = document.createElement("LI");
@@ -223,14 +251,15 @@ function review(selection) {
   });
 
   uiMainScreen.append(list);
-  list.scrollIntoView();
+  document.getElementById("aReview").scrollIntoView();
 }
 
 // menu interaction
 uiBtnStartGame.addEventListener("click", (e) => {
   e.preventDefault();
 
-  uiSettings.classList.add("display-none");
+  transitionOut(uiSettings);
+  uiBody.style.overflow = "hidden";
 
   startGame();
 });
@@ -246,8 +275,9 @@ uiBtnGameReview.addEventListener("click", (e) => {
 uiBtnOpenSettings.addEventListener("click", (e) => {
   e.preventDefault();
 
+  uiBody.style.overflow = "auto";
   uiSettings.classList.toggle("display-none");
-  uiSettings.scrollIntoView();
+  document.getElementById("aSettings").scrollIntoView();
 });
 
 uiSettings.addEventListener("click", (e) => {
@@ -273,7 +303,7 @@ uiSettings.addEventListener("click", (e) => {
   }
 });
 
-function transitionOut(item) {
+function transitionOut(item, translate) {
   item.classList.remove("anim-appear");
   item.classList.add("anim-disappear");
   setTimeout(() => {
@@ -287,4 +317,18 @@ function transitionIn(item) {
     item.classList.remove("anim-disappear");
     item.classList.add("anim-appear");
   }, 200);
+}
+
+function transitionMove(item, way) {
+  if (way === "in") {
+    item.classList.remove("anim-leave");
+    item.classList.remove("display-none");
+    item.classList.add("anim-enter");
+  } else if (way === "out") {
+    item.classList.remove("anim-enter");
+    item.classList.add("anim-leave");
+    setTimeout(() => {
+      item.classList.add("display-none");
+    }, 500);
+  }
 }
