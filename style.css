@@ -61,6 +61,29 @@ body > * {
   width: 4em;
   text-align: center;
   font-weight: bold;
+  position: relative;
+}
+
+#tryCount:hover::before {
+  transform: scaleY(1);
+}
+
+#tryCount::before {
+  position: absolute;
+  content: "Quit";
+  background-color: rgb(226, 76, 84);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  transition: all 0.1s ease-in-out;
+  transform: scaleY(0);
+  transform-origin: top;
+  cursor: pointer;
 }
 
 #successMessage {

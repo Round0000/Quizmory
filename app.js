@@ -180,7 +180,7 @@ function gameIsOn() {
 
       if (foundPairs === totalPairs) {
         setTimeout(() => {
-          victory();
+          backToMain(true);
         }, 1000);
       }
     }
@@ -221,7 +221,7 @@ function updateUI(name, cards) {
 }
 
 // when game is won
-function victory() {
+function backToMain(victory) {
   transitionOut(uiCardsContainer);
   setTimeout(() => {
     transitionMove(uiGameHeader, "out");
@@ -229,7 +229,9 @@ function victory() {
     uiSettings.classList.remove("anim-disappear");
   }, 200);
 
-  uiBtnGameReview.disabled = false;
+  if (victory) {
+    uiBtnGameReview.disabled = false;
+  }
 }
 
 // previous game review
@@ -257,6 +259,11 @@ function review(selection) {
   uiMainScreen.append(list);
   document.getElementById("aReview").scrollIntoView();
 }
+
+// leave the game
+uiTryCount.addEventListener("click", () => {
+  backToMain();
+});
 
 // menu interaction
 uiBtnStartGame.addEventListener("click", (e) => {
