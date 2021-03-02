@@ -181,7 +181,7 @@ function gameIsOn() {
       if (foundPairs === totalPairs) {
         setTimeout(() => {
           backToMain(true);
-        }, 1000);
+        }, 2000);
       }
     }
   });
@@ -209,7 +209,7 @@ function updateUI(name, cards) {
     uiName.style.opacity = "1";
     setTimeout(() => {
       uiName.style.opacity = "0";
-    }, 1300);
+    }, 2000);
   }
   setTimeout(() => {
     uiTryCount.classList.remove("anim-trycount");
