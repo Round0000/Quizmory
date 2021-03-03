@@ -59,6 +59,10 @@ const categories = [
     id: "dbPlaces01",
     url: "https://api.jsonbin.io/b/603e62fb81087a6a8b94b429/latest",
   },
+  {
+    id: "dbMovies01",
+    url: "https://api.jsonbin.io/b/603f928b0866664b1087e551/latest",
+  },
 ];
 
 uiCategories.addEventListener("click", (e) => {
@@ -102,6 +106,7 @@ function timer(max) {
   function countdown() {
     if (time === 0) {
       clearInterval(inter);
+      uiCardsContainer.style.pointerEvents = "none";
       setTimeout(() => {
         backToMain();
       }, 2000);
@@ -273,6 +278,7 @@ function backToMain(victory) {
     transitionMove(uiGameHeader, "out");
     transitionIn(uiMainScreen);
     uiSettings.classList.remove("anim-disappear");
+    uiTryCount.innerText = "...";
   }, 200);
 
   if (victory) {
@@ -282,7 +288,6 @@ function backToMain(victory) {
 
 // previous game review
 function review(selection) {
-  uiBody.style.overflow = "auto";
   const list = document.createElement("UL");
   list.setAttribute("id", "reviewList");
   document.getElementById("topAnchor").style.display = "block";
@@ -316,7 +321,6 @@ uiBtnStartGame.addEventListener("click", (e) => {
   e.preventDefault();
 
   transitionOut(uiSettings);
-  uiBody.style.overflow = "hidden";
 
   startGame();
 });
@@ -332,7 +336,6 @@ uiBtnGameReview.addEventListener("click", (e) => {
 uiBtnOpenSettings.addEventListener("click", (e) => {
   e.preventDefault();
 
-  uiBody.style.overflow = "auto";
   uiSettings.classList.toggle("display-none");
   if (!uiSettings.classList.contains("display-none")) {
     document.getElementById("aSettings").scrollIntoView();
