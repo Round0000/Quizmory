@@ -290,6 +290,26 @@ body > * {
   padding-top: 0;
 }
 
+#settings label[for="speedrun"] {
+  color: crimson;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff5;
+  padding: 10px;
+  width: max-content;
+  margin: auto;
+  border-radius: 5px;
+}
+
+#speedrun {
+  width: 2em;
+  height: 2em;
+  margin-left: 10px;
+}
+
 .settings-card-patterns {
   display: grid;
   width: 100%;
@@ -315,6 +335,8 @@ body > * {
 
 .settings-section {
   margin-bottom: 20px;
+  padding: 10px 0;
+  border-top: 1px solid #2222;
 }
 
 .settings-background-colors {
@@ -614,6 +636,7 @@ body > * {
 
   #main-screen {
     max-width: 94vw;
+    min-width: 580px;
   }
 
   .review {
@@ -641,8 +664,13 @@ body > * {
     --card-size: 25vmin;
   }
 
+  body {
+    overflow: auto;
+  }
+
   #main-screen {
     max-width: 78vw;
+    min-width: 720px;
   }
 
   .review-images img {

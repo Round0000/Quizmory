@@ -15,7 +15,7 @@
     <a id="aTop"></a>
 
     <header id="game-header" class="display-none">
-      <p id="tryCount">0</p>
+      <p id="tryCount">...</p>
       <div id="successMessage">
         <p></p>
       </div>
@@ -113,7 +113,14 @@
       <a id="aSettings"></a>
       <section id="settings" class="display-none">
         <div class="settings-section">
-          <h2 class="settings-title">Card patterns</h2>
+          <h2 class="settings-title">Game mode</h2>
+          <label for="speedrun"
+            >Speed mode
+            <input type="checkbox" id="speedrun" />
+          </label>
+        </div>
+        <div class="settings-section">
+          <h2 class="settings-title">Card pattern</h2>
           <div class="settings-card-patterns">
             <img
               data-id="01"
@@ -192,6 +199,11 @@
             <div
               data-id="04"
               style="background-color: #f4acb7"
+              class="setting-color"
+            ></div>
+            <div
+              data-id="05"
+              style="background-color: #5f4b8b"
               class="setting-color"
             ></div>
           </div>

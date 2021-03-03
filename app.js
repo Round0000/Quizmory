@@ -11,6 +11,7 @@ const uiCardsContainer = document.getElementById("cardsContainer");
 const uiSettings = document.getElementById("settings");
 const uiBody = document.querySelector("body");
 const uiCategories = document.getElementById("categories");
+const uiSpeedrun = document.getElementById("speedrun");
 
 let db = [];
 let tryCount = 0;
@@ -18,6 +19,7 @@ let flippedCount = 0;
 let totalPairs = 6;
 let foundPairs = 0;
 let reviewSelection = [];
+let speedrun = false;
 
 function retrieveSettings() {
   const storedImg = localStorage.getItem("backgroundIMG");
@@ -92,14 +94,38 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// timer function for speed mode
+function timer(max) {
+  const inter = setInterval(countdown, 1000);
+  let time = max;
+  uiTryCount.innerText = time;
+  function countdown() {
+    if (time === 0) {
+      clearInterval(inter);
+      setTimeout(() => {
+        backToMain();
+      }, 2000);
+    } else {
+      time--;
+      uiTryCount.innerText = time;
+    }
+  }
+
+  if (uiGameHeader.classList.contains("display-none")) {
+    clearInterval(inter);
+    uiTryCount.innerText = "...";
+  }
+}
+
 // set counters and UI to default/empty
 function initGame() {
   tryCount = 0;
   flippedCount = 0;
   foundPairs = 0;
-  uiTryCount.innerText = tryCount;
+
   uiName.innerText = "";
   uiCardsContainer.innerHTML = "";
+  uiCardsContainer.style.pointerEvents = "none";
 
   document.getElementById("topAnchor").style.display = "none";
   transitionOut(uiMainScreen);
@@ -110,6 +136,17 @@ function initGame() {
       document.getElementById("reviewList").remove();
     }
   }, 200);
+
+  setTimeout(() => {
+    if (speedrun) {
+      timer(30);
+    } else {
+      uiTryCount.innerText = tryCount;
+    }
+
+    uiCardsContainer.style.pointerEvents = "auto";
+  }, 1000);
+
   transitionIn(uiCardsContainer);
 }
 
@@ -169,7 +206,9 @@ function gameIsOn() {
 
     if (flippedCount === 2) {
       uiCardsContainer.style.pointerEvents = "none";
-      tryCount++;
+      if (!speedrun) {
+        tryCount++;
+      }
       const flippedCards = Array.from(
         document.querySelectorAll(".flipped:not(.found)")
       );
@@ -201,15 +240,22 @@ function checkPair(cards) {
 }
 
 // update UI after a pair selection
-function updateUI(name, cards) {
-  uiTryCount.classList.add("anim-trycount");
-  uiTryCount.innerText = tryCount;
+function updateUI(name, cards, speed) {
+  let gamespeed;
+  if (speedrun) {
+    gamespeed = 1000;
+  } else {
+    gamespeed = 2000;
+    uiTryCount.classList.add("anim-trycount");
+    uiTryCount.innerText = tryCount;
+  }
+
   if (name) {
     uiName.innerText = name;
     uiName.style.opacity = "1";
     setTimeout(() => {
       uiName.style.opacity = "0";
-    }, 2000);
+    }, gamespeed);
   }
   setTimeout(() => {
     uiTryCount.classList.remove("anim-trycount");
@@ -217,7 +263,7 @@ function updateUI(name, cards) {
       card.classList.remove("flipped");
     });
     uiCardsContainer.style.pointerEvents = "auto";
-  }, 2000);
+  }, gamespeed);
 }
 
 // when game is won
@@ -288,10 +334,18 @@ uiBtnOpenSettings.addEventListener("click", (e) => {
 
   uiBody.style.overflow = "auto";
   uiSettings.classList.toggle("display-none");
-  document.getElementById("aSettings").scrollIntoView();
+  if (!uiSettings.classList.contains("display-none")) {
+    document.getElementById("aSettings").scrollIntoView();
+  }
 });
 
 uiSettings.addEventListener("click", (e) => {
+  if (uiSpeedrun.checked) {
+    speedrun = true;
+  } else {
+    speedrun = false;
+  }
+
   if (e.target.classList.contains("setting-pattern")) {
     document
       .querySelectorAll(".settings-card-patterns .selected")
