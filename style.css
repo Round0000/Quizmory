@@ -42,7 +42,6 @@ body > * {
   display: flex;
   background-color: #222;
   width: 100%;
-  justify-content: center;
   margin-bottom: 40px;
   box-shadow: 0 3px 8px #11111155;
   overflow: hidden;
@@ -90,11 +89,24 @@ body > * {
   background-color: #faf9f9;
   display: flex;
   align-self: stretch;
+  position: relative;
 }
 
 #successMessage p {
   opacity: 0;
   transition: all 0.5s;
+  white-space: nowrap;
+  max-width: 80vw;
+}
+
+#successMessage p::before {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background: linear-gradient(to right, transparent, white);
 }
 
 #main-screen {
@@ -137,6 +149,30 @@ body > * {
   font-weight: 500;
   color: #222;
   margin-bottom: 6px;
+  animation: shake 4s infinite ease-in-out;
+}
+
+@keyframes shake {
+  43% {
+    transform: unset;
+  }
+  48% {
+    transform: rotate(1deg) skew(8deg);
+  }
+  50% {
+    transform: rotate(-2deg);
+    color: rgb(7, 84, 97);
+  }
+  52% {
+    transform: rotate(1deg) skew(-6deg);
+  }
+  54% {
+    transform: rotate(-1deg);
+    color: initial;
+  }
+  66% {
+    transform: unset;
+  }
 }
 
 #categories label {
@@ -379,6 +415,10 @@ body > * {
   justify-content: center;
   padding: 16px;
   font-weight: 400;
+}
+
+#menu svg {
+  pointer-events: none;
 }
 
 #menu button:disabled {

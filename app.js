@@ -21,16 +21,20 @@ let foundPairs = 0;
 let reviewSelection = [];
 let speedrun = false;
 
+let storedImg = localStorage.getItem("backgroundIMG");
+let storedClr = localStorage.getItem("backgroundClr");
+
 function retrieveSettings() {
-  const storedImg = localStorage.getItem("backgroundIMG");
-  const storedClr = localStorage.getItem("backgroundClr");
   uiBody.style.backgroundColor = "#85adb1";
   if (storedClr) {
     uiBody.style.backgroundColor = storedClr;
   }
 
+  if (!storedImg) {
+    localStorage.setItem("backgroundIMG", "01");
+  }
+
   document.querySelectorAll(".setting-pattern").forEach((item) => {
-    item.classList.remove("selected");
     if (item.dataset.id === storedImg) {
       item.classList.add("selected");
     }
@@ -104,8 +108,9 @@ function timer(max) {
   let time = max;
   uiTryCount.innerText = time;
   function countdown() {
-    if (time === 0) {
+    if (time === 0 || foundPairs === totalPairs) {
       clearInterval(inter);
+      uiTryCount.innerText = "...";
       uiCardsContainer.style.pointerEvents = "none";
       setTimeout(() => {
         backToMain();
@@ -116,10 +121,10 @@ function timer(max) {
     }
   }
 
-  if (uiGameHeader.classList.contains("display-none")) {
+  uiTryCount.addEventListener("click", () => {
     clearInterval(inter);
     uiTryCount.innerText = "...";
-  }
+  });
 }
 
 // set counters and UI to default/empty
@@ -150,7 +155,7 @@ function initGame() {
     }
 
     uiCardsContainer.style.pointerEvents = "auto";
-  }, 1000);
+  }, 1500);
 
   transitionIn(uiCardsContainer);
 }
@@ -158,11 +163,11 @@ function initGame() {
 // prepare game board
 function startGame() {
   initGame();
-  fillGrid(localStorage.getItem("backgroundIMG"));
+  fillGrid(storedImg);
 }
 
 // randomize cards and display them on the page
-function fillGrid(backgroundIMG) {
+function fillGrid(imgID) {
   let shuffledDB = db.sort(shuffle);
   function shuffle(a, b) {
     return 0.5 - Math.random();
@@ -177,7 +182,7 @@ function fillGrid(backgroundIMG) {
       item.id
     }" data-name="${item.name}">
       <div class="content">
-        <div class="front frontbg${backgroundIMG}"></div>
+        <div class="front frontbg${imgID}"></div>
         <div class="back"><img src="${item.face1.content}" alt=""></div>
       </div>
     </div>
@@ -185,7 +190,7 @@ function fillGrid(backgroundIMG) {
       item.id
     }" data-name="${item.name}">
       <div class="content">
-      <div class="front frontbg${backgroundIMG}"></div>
+      <div class="front frontbg${imgID}"></div>
         <div class="back"><img src="${item.face2.content}" alt=""></div>
       </div>
     </div>
@@ -238,7 +243,7 @@ function checkPair(cards) {
   ) {
     setTimeout(() => {
       cards.forEach((card) => card.classList.add("found", "anim-success"));
-    }, 500);
+    }, 600);
     foundPairs++;
     return cards[0].parentElement.dataset.name;
   }
@@ -342,6 +347,7 @@ uiBtnOpenSettings.addEventListener("click", (e) => {
   }
 });
 
+// Settings section
 uiSettings.addEventListener("click", (e) => {
   if (uiSpeedrun.checked) {
     speedrun = true;
@@ -371,6 +377,7 @@ uiSettings.addEventListener("click", (e) => {
   }
 });
 
+// Transition helpers
 function transitionOut(item, translate) {
   item.classList.remove("anim-appear");
   item.classList.add("anim-disappear");
