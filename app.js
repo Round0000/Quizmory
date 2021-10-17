@@ -67,6 +67,10 @@ const categories = [
     id: "dbMovies01",
     url: "https://api.jsonbin.io/b/603f928b0866664b1087e551/latest",
   },
+  {
+    id: "dbObadia01",
+    url: "https://api.jsonbin.io/b/616c0ee7aa02be1d445a9c62/latest",
+  },
 ];
 
 uiCategories.addEventListener("click", (e) => {
