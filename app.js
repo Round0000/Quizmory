@@ -203,7 +203,9 @@ function fillGrid(imgID) {
     uiCardsContainer.innerHTML += html;
   });
 
-  gameIsOn();
+  setTimeout(() => {
+    gameIsOn();
+  }, 1000);
 }
 
 // while the game is running
